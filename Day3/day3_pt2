@@ -1,0 +1,146 @@
+# Description: Day 3 of Advent of Code
+# Part 1:
+import copy
+
+def find_nums(arr_in, i, j, max_i, max_j):
+    arr = copy.deepcopy(arr_in)
+    nums = []
+    if arr[i-1][j-1].isdigit():
+        n = ''
+        min_idx = j-1
+        max_idx = j-1
+        while (min_idx > 0) and arr[i-1][min_idx-1].isdigit():
+            min_idx -= 1
+        while (max_idx +1 < max_j) and arr[i-1][max_idx+1].isdigit():
+            max_idx += 1
+        for k in range(min_idx, max_idx +1):
+            n = n + str(arr[i-1][k])
+            arr[i-1][k] = '.'
+        nums.append(int(n))
+    if arr[i-1][j].isdigit():
+        n = ''
+        min_idx = j
+        max_idx = j
+        while (min_idx > 0) and arr[i-1][min_idx-1].isdigit():
+            min_idx -= 1
+        while (max_idx +1 < max_j) and arr[i-1][max_idx+1].isdigit():
+            max_idx += 1
+        for k in range(min_idx, max_idx +1):
+            n = n + str(arr[i-1][k])
+            arr[i-1][k] = '.'
+        nums.append(int(n))
+    if arr[i-1][j+1].isdigit():
+        n = ''
+        min_idx = j+1
+        max_idx = j+1
+        while (min_idx > 0) and arr[i-1][min_idx-1].isdigit():
+            min_idx -= 1
+        while (max_idx +1 < max_j) and arr[i-1][max_idx+1].isdigit():
+            max_idx += 1
+        for k in range(min_idx, max_idx +1):
+            n = n + str(arr[i-1][k])
+            arr[i-1][k] = '.'
+        nums.append(int(n))
+    if arr[i][j-1].isdigit():
+        n = ''
+        min_idx = j-1
+        max_idx = j-1
+        while (min_idx > 0) and arr[i][min_idx-1].isdigit():
+            min_idx -= 1
+        while (max_idx +1 < max_j) and arr[i][max_idx+1].isdigit():
+            max_idx += 1
+        for k in range(min_idx, max_idx +1):
+            n = n + str(arr[i][k])
+            arr[i][k] = '.'
+        nums.append(int(n))
+    if arr[i][j+1].isdigit():
+        n = ''
+        min_idx = j+1
+        max_idx = j+1
+        while (min_idx > 0) and arr[i][min_idx-1].isdigit():
+            min_idx -= 1
+        while (max_idx +1 < max_j) and arr[i][max_idx+1].isdigit():
+            max_idx += 1
+        for k in range(min_idx, max_idx +1):
+            n = n + str(arr[i][k])
+            arr[i][k] = '.'
+        nums.append(int(n))
+    if arr[i+1][j-1].isdigit():
+        n = ''
+        min_idx = j-1
+        max_idx = j-1
+        while (min_idx > 0) and arr[i+1][min_idx-1].isdigit():
+            min_idx -= 1
+        while (max_idx +1 < max_j) and arr[i+1][max_idx+1].isdigit():
+            max_idx += 1
+        for k in range(min_idx, max_idx +1):
+            n = n + str(arr[i+1][k])
+            arr[i+1][k] = '.'
+        nums.append(int(n))
+    if arr[i+1][j].isdigit():
+        n = ''
+        min_idx = j
+        max_idx = j
+        while (min_idx > 0) and arr[i+1][min_idx-1].isdigit():
+            min_idx -= 1
+        while (max_idx +1 < max_j) and arr[i+1][max_idx+1].isdigit():
+            max_idx += 1
+        for k in range(min_idx, max_idx +1):
+            n = n + str(arr[i+1][k])
+            arr[i+1][k] = '.'
+        nums.append(int(n))
+    if arr[i+1][j+1].isdigit():
+        n = ''
+        min_idx = j+1
+        max_idx = j+1
+        while (min_idx > 0) and arr[i+1][min_idx-1].isdigit():
+            min_idx -= 1
+        while (max_idx +1 < max_j) and arr[i+1][max_idx+1].isdigit():
+            max_idx += 1
+        for k in range(min_idx, max_idx +1):
+            n = n + str(arr[i+1][k])
+            arr[i+1][k] = '.'
+        nums.append(int(n))
+    return nums
+
+
+with open('data.txt') as f:
+    parts = []
+    symbols = []
+    numbers = []
+    for line in f.readlines():
+        part = []
+        symbol = []
+        number = []
+        line = line.strip()
+        for i in range(len(line)):
+            part.append(line[i])
+            if line[i].isdigit():
+                number.append(line[i])
+            else:
+                number.append('x')
+            if line[i] == '*':
+                symbol.append(0)
+            else:
+                symbol.append(-1)
+        symbols.append(symbol)
+        numbers.append(number)
+        parts.append(part)
+    new_symbols = copy.deepcopy(symbols)
+
+    store = []
+    i = 0
+    sum = 0
+    while i < len(symbols):
+        j = 0
+        while j < len(symbols[0]):
+            if symbols[i][j] == 0:
+                nums = find_nums(numbers, i, j, len(symbols), len(symbols[0]))
+                if len(nums) == 2:
+                    sum += (int(nums[0]) * int(nums[1]))
+                    store.append([min(nums), max(nums)])
+            j += 1
+        i += 1
+    print(sum)
+
+
